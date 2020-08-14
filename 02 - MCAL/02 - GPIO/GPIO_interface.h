@@ -58,6 +58,17 @@ typedef enum {
 	GPIO_OUTPUT_50MHZ_AFOD         = 0B1111 
 }GPIO_modes_t;
 
+
+typedef enum {
+	PINS_2       =   0x03  ,
+	PINS_3       =   0x07  ,
+	PINS_4       =   0x0f  ,
+	PINS_5       =   0x1f  ,
+	PINS_6       =   0x3f  ,
+	PINS_7       =   0x7f  ,
+	PINS_8       =   0xff  ,
+}GPIO_numberOfPins_t ;
+
 #define HIGH 1 
 #define LOW  0
 
@@ -100,9 +111,9 @@ void GPIO_voidSetPortValue (GPIO_portId_t copyPortId , u16 copy_u16Value);
 
 /* 
   * GPIO_voidWriteByte - > write a value to the 8 pins 
-  * i/p : port id (PORTA - PORTB - PORTC) / pin number ( PIN0 -> PIN15) /value (0x00 - 0xff)
+  * i/p : port id (PORTA - PORTB - PORTC) / pin number ( PIN0 -> PIN15)/ number of pins to be written /value (0x00 - 0xff)
 */
-void GPIO_voidWriteByte(GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyStartPinNumber , u8 copy_u8Value );
+void GPIO_voidWritePins(GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyStartPinNumber , GPIO_numberOfPins_t copyNumberOfPins , u8 copy_u8Value ) ;
 
 
 #endif

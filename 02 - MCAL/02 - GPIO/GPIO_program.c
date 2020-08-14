@@ -17,10 +17,13 @@ void GPIO_voidSetPinMode (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinN
 				GPIOA_CRL &= ~ (CLEAR_VALUE << copyPinNumber * 4 ) ; // clear the four bits first
 				GPIOA_CRL |=   (copyMode    << copyPinNumber * 4 ) ; // update with mode value
 			}
-			else {
+			else if (copyPinNumber <= 15){
 				copyPinNumber = copyPinNumber - 8 ;
 				GPIOA_CRH &= ~ (CLEAR_VALUE << copyPinNumber * 4 ) ; // clear the four bits first
 				GPIOA_CRH |=   (copyMode    << copyPinNumber * 4 ) ; // update with mode value
+			}
+			else {
+				
 			}
 			break;
 		case PORTB : 
@@ -28,10 +31,13 @@ void GPIO_voidSetPinMode (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinN
 				GPIOB_CRL &= ~ (CLEAR_VALUE << copyPinNumber * 4 ) ; // clear the four bits first
 				GPIOB_CRL |=   (copyMode    << copyPinNumber * 4 ) ; // update with mode value
 			}
-			else {
+			else if (copyPinNumber <= 15){
 				copyPinNumber = copyPinNumber - 8 ;
 				GPIOB_CRH &= ~ (CLEAR_VALUE << copyPinNumber * 4 ) ; // clear the four bits first
 				GPIOB_CRH |=   (copyMode    << copyPinNumber * 4 ) ; // update with mode value
+			}
+			else {
+				
 			}
 			break;
 		case PORTC : 
@@ -39,10 +45,13 @@ void GPIO_voidSetPinMode (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinN
 				GPIOC_CRL &= ~ (CLEAR_VALUE << copyPinNumber * 4 ) ; // clear the four bits first
 				GPIOC_CRL |=   (copyMode    << copyPinNumber * 4 ) ; // update with mode value
 			}
-			else {
+			else if (copyPinNumber <= 15){
 				copyPinNumber = copyPinNumber - 8 ;
 				GPIOC_CRH &= ~ (CLEAR_VALUE << copyPinNumber * 4 ) ; // clear the four bits first
 				GPIOC_CRH |=   (copyMode    << copyPinNumber * 4 ) ; // update with mode value
+			}
+			else{
+				
 			}
 			break;
 		default    : /* Error code */  break ;
@@ -142,18 +151,18 @@ void GPIO_voidSetPortValue (GPIO_portId_t copyPortId , u16 copy_u16Value){
 	}
 }
 
-void GPIO_voidWriteByte(GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyStartPinNumber , u8 copy_u8Value ){
+void GPIO_voidWritePins(GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyStartPinNumber , GPIO_numberOfPins_t copyNumberOfPins , u8 copy_u8Value ){
 	switch (copyPortId) {
 		case PORTA :
-			GPIOA_ODR &= ~ (0xff         << copyStartPinNumber ) ;
-			GPIOA_ODR |=   (copy_u8Value << copyStartPinNumber ) ;
+			GPIOA_ODR &= ~ (copyNumberOfPins << copyStartPinNumber ) ;
+			GPIOA_ODR |=   (copy_u8Value     << copyStartPinNumber ) ;
 			break ;
 		case PORTB :
-			GPIOB_ODR &= ~ (0xff         << copyStartPinNumber ) ;
+			GPIOB_ODR &= ~ (copyNumberOfPins << copyStartPinNumber ) ;
 			GPIOB_ODR |=   (copy_u8Value << copyStartPinNumber ) ;
 			break ;
 		case PORTC : 
-			GPIOC_ODR &= ~ (0xff         << copyStartPinNumber ) ;
+			GPIOC_ODR &= ~ (copyNumberOfPins << copyStartPinNumber ) ;
 			GPIOC_ODR |=   (copy_u8Value << copyStartPinNumber ) ;
 			break ;
 		default    : /* should not be here */ break ;
