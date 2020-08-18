@@ -1,7 +1,7 @@
 /*****************************************************/
  /* Author      : mosad                              */
- /* Version     : v01                                */
- /* date        : 12/8/2020                           */
+ /* Version     : v02                                */
+ /* date        : 12/8/2020                          */
 /*****************************************************/
 #include "BIT_MATH.h"
 #include "STD_TYPES.h"
@@ -59,14 +59,53 @@ void GPIO_voidSetPinMode (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinN
 	}
 }
 
+void GPIO_voidSetPullType (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumber , GPIO_pullType_t copyType){
+	switch (copyPortId) {
+		case PORTA :
+			if      (copyType == GPIO_PULL_UP){
+				GPIOA_BSRR = (1 << copyPinNumber);
+			}
+			else if (copyType == GPIO_PULL_DOWN ){
+				GPIOA_BRR =  (1 << copyPinNumber);
+			}
+			else {
+				/* should not be here */
+			}
+			break ;
+		case PORTB :
+			if      (copyType == GPIO_PULL_UP){
+				GPIOB_BSRR = (1 << copyPinNumber);
+			}
+			else if (copyType == GPIO_PULL_DOWN ){
+				GPIOB_BRR  = (1 << copyPinNumber);
+			}
+			else {
+				/* should not be here */
+			}
+			break ;
+		case PORTC : 
+			if      (copyType == GPIO_PULL_UP){
+				GPIOC_BSRR = (1 << copyPinNumber);
+			}
+			else if (copyType == GPIO_PULL_DOWN ){
+				GPIOC_BRR  = (1 << copyPinNumber);
+			}
+			else {
+				/* should not be here */
+			}
+			break ;
+		default    : /* should not be here */ break ;
+	}
+}
+
 void GPIO_voidsetPinValue (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumber , u8 copy_u8Value){
 	switch (copyPortId) {
 		case PORTA :
 			if      (copy_u8Value == HIGH){
-				SET_BIT   (GPIOA_ODR , copyPinNumber) ;
+				GPIOA_BSRR = (1 << copyPinNumber);
 			}
 			else if (copy_u8Value == LOW ){
-				CLEAR_BIT (GPIOA_ODR , copyPinNumber) ;
+				GPIOA_BRR =  (1 << copyPinNumber);
 			}
 			else {
 				/* should not be here */
@@ -74,10 +113,10 @@ void GPIO_voidsetPinValue (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPin
 			break ;
 		case PORTB :
 			if      (copy_u8Value == HIGH){
-				SET_BIT   (GPIOB_ODR , copyPinNumber) ;
+				GPIOB_BSRR = (1 << copyPinNumber);
 			}
 			else if (copy_u8Value == LOW ){
-				CLEAR_BIT (GPIOB_ODR , copyPinNumber) ;
+				GPIOB_BRR  = (1 << copyPinNumber);
 			}
 			else {
 				/* should not be here */
@@ -85,10 +124,10 @@ void GPIO_voidsetPinValue (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPin
 			break ;
 		case PORTC : 
 			if      (copy_u8Value == HIGH){
-				SET_BIT   (GPIOC_ODR , copyPinNumber) ;
+				GPIOC_BSRR = (1 << copyPinNumber);
 			}
 			else if (copy_u8Value == LOW ){
-				CLEAR_BIT (GPIOC_ODR , copyPinNumber) ;
+				GPIOC_BRR  = (1 << copyPinNumber);
 			}
 			else {
 				/* should not be here */
@@ -167,4 +206,52 @@ void GPIO_voidWritePins(GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyStartP
 			break ;
 		default    : /* should not be here */ break ;
 	}
+}
+
+void GPIO_voidLockPin(GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumber){
+	u32 tmp = 0x00010000;
+	switch (copyPortId) {
+		case PORTA :
+			tmp |=  (1 << copyPinNumber);
+		/* Set LCKK bit */
+			GPIOA_LCKR = tmp;
+			/* Reset LCKK bit */
+			GPIOA_LCKR =  (1 << copyPinNumber);
+			/* Set LCKK bit */
+			GPIOA_LCKR = tmp;
+			/* Read LCKK bit*/
+			tmp = GPIOA_LCKR;
+			/* Read LCKK bit*/
+			tmp = GPIOA_LCKR;
+			break ;
+		case PORTB :
+			tmp |=  (1 << copyPinNumber) ;
+		/* Set LCKK bit */
+			GPIOB_LCKR = tmp;
+			/* Reset LCKK bit */
+			GPIOB_LCKR =  (1 << copyPinNumber);
+			/* Set LCKK bit */
+			GPIOB_LCKR = tmp;
+			/* Read LCKK bit*/
+			tmp = GPIOB_LCKR;
+			/* Read LCKK bit*/
+			tmp = GPIOB_LCKR;
+		
+			break ;
+		case PORTC : 
+			tmp |= (1 << copyPinNumber);
+			/* Set LCKK bit */
+			GPIOC_LCKR = tmp;
+			/* Reset LCKK bit */
+			GPIOC_LCKR =  (1 << copyPinNumber);
+			/* Set LCKK bit */
+			GPIOC_LCKR = tmp;
+			/* Read LCKK bit*/
+			tmp = GPIOC_LCKR;
+			/* Read LCKK bit*/
+			tmp = GPIOC_LCKR;
+			break ;
+		default    : /* should not be here */ break ;
+	}
+	
 }

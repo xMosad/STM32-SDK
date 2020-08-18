@@ -1,6 +1,6 @@
 /*****************************************************/
  /* Author      : mosad                              */
- /* Version     : v01                                */
+ /* Version     : v02                                */
  /* date        : 12/8/2020                           */
 /*****************************************************/
 #ifndef GPIO_INTERFACE_H
@@ -38,8 +38,7 @@ typedef enum {
 	/*   Input modes    */
 	GPIO_INPUT_ANALOG              = 0B0000 ,
 	GPIO_INPUT_FLOATING            = 0B0100 ,
-	GPIO_INPUT_PULL_UP             = 0B1000 ,            
-	GPIO_INPUT_PULL_DOWN           = 0B1000 ,
+	GPIO_INPUT_PULL_UP_DOWN        = 0B1000 ,            
 	
 	/*   Output modes   */
 	GPIO_OUTPUT_10MHZ_PP           = 0B0001 ,
@@ -58,6 +57,10 @@ typedef enum {
 	GPIO_OUTPUT_50MHZ_AFOD         = 0B1111 
 }GPIO_modes_t;
 
+typedef enum {
+	GPIO_PULL_UP,
+	GPIO_PULL_DOWN
+}GPIO_pullType_t;
 
 typedef enum {
 	PINS_2       =   0x03  ,
@@ -77,6 +80,12 @@ typedef enum {
   * i/p : port id (PORTA - PORTB - PORTC) / pin number ( PIN0 -> PIN15) / mode
 */
 void GPIO_voidSetPinMode (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumber , GPIO_modes_t copyMode  );
+
+/* 
+  * GPIO_voidSetPullType - > choose between pull up or down only called if mode (GPIO_INPUT_PULL_UP_DOWN) 
+  * i/p : port id (PORTA - PORTB - PORTC) / pin number ( PIN0 -> PIN15) / (GPIO_PULL_UP - GPIO_PULL_DOWN) 
+*/
+void GPIO_voidSetPullType (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumber , GPIO_pullType_t copyType);
 
 /* 
   * GPIO_voidsetPinValue - > set the pin value 1 or 0 
@@ -115,5 +124,10 @@ void GPIO_voidSetPortValue (GPIO_portId_t copyPortId , u16 copy_u16Value);
 */
 void GPIO_voidWritePins(GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyStartPinNumber , GPIO_numberOfPins_t copyNumberOfPins , u8 copy_u8Value ) ;
 
+/* 
+  * GPIO_voidLockPin - > Lock the pin configuration 
+  * i/p : port id (PORTA - PORTB - PORTC) / pin number (PIN0 - PIN15)
+*/
+void GPIO_voidLockPin(GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumber);
 
 #endif
