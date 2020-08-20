@@ -49,11 +49,11 @@ u8 BUTTON_voidInit(GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumber){
 	 /* Intialize the pins as input */
 	#if   BUTTON_PULL_TYPE == INTERNAL_PULL_UP 
 		GPIO_voidSetPinMode (copyPortId , copyPinNumber , GPIO_INPUT_PULL_UP_DOWN );
-		GPIO_voidSetPullType(copyPortId , copyPinNumber , GPIO_PULL_UP);
+		GPIO_voidsetPinValue(copyPortId , copyPinNumber , GPIO_PULL_UP);
 		
 	#elif BUTTON_PULL_TYPE == INTERNAL_PULL_DOWN
 		GPIO_voidSetPinMode(copyPortId , copyPinNumber , GPIO_INPUT_PULL_UP_DOWN );
-		GPIO_voidSetPullType(copyPortId , copyPinNumber , GPIO_PULL_DOWN);
+		GPIO_voidsetPinValue(copyPortId , copyPinNumber , GPIO_PULL_DOWN);
 		
 	#elif (BUTTON_PULL_TYPE == EXTERNAL_PULL_UP) || (BUTTON_PULL_TYPE == EXTERNAL_PULL_DOWN)
 		GPIO_voidSetPinMode(copyPortId , copyPinNumber , GPIO_INPUT_FLOATING );

@@ -85,7 +85,7 @@ void GPIO_voidSetPinMode (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinN
 /* 
   * GPIO_voidsetPinValue - > used to set a specific pin HIGH or LOW 
 							 or enable PULL UP or DOWN 
-  * i/p : port id (PORTA - PORTB - PORTC) / pin number ( PIN0 -> PIN15) / value ( HIGH - LOW) ()
+  * i/p : port id (PORTA - PORTB - PORTC) / pin number ( PIN0 -> PIN15) / value ( HIGH - LOW) (GPIO_PULL_UP - GPIO_PULL_DOWN)
 */
 void GPIO_voidsetPinValue (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumber , u8 copy_u8Value);
 
