@@ -57,11 +57,7 @@ typedef enum {
 	GPIO_OUTPUT_50MHZ_AFOD         = 0B1111 
 }GPIO_modes_t;
 
-typedef enum {
-	GPIO_PULL_UP,
-	GPIO_PULL_DOWN
-}GPIO_pullType_t;
-
+/* number of pins to write into */
 typedef enum {
 	PINS_2       =   0x03  ,
 	PINS_3       =   0x07  ,
@@ -72,8 +68,13 @@ typedef enum {
 	PINS_8       =   0xff  ,
 }GPIO_numberOfPins_t ;
 
-#define HIGH 1 
-#define LOW  0
+/* pins value */
+#define HIGH           1 
+#define LOW            0
+
+/* pull types */
+#define GPIO_PULL_UP   1
+#define GPIO_PULL_DOWN 0
 
 /* 
   * GPIO_voidSetPinMode - > set the mode of the pin 
@@ -82,14 +83,9 @@ typedef enum {
 void GPIO_voidSetPinMode (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumber , GPIO_modes_t copyMode  );
 
 /* 
-  * GPIO_voidSetPullType - > choose between pull up or down only called if mode (GPIO_INPUT_PULL_UP_DOWN) 
-  * i/p : port id (PORTA - PORTB - PORTC) / pin number ( PIN0 -> PIN15) / (GPIO_PULL_UP - GPIO_PULL_DOWN) 
-*/
-void GPIO_voidSetPullType (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumber , GPIO_pullType_t copyType);
-
-/* 
-  * GPIO_voidsetPinValue - > set the pin value 1 or 0 
-  * i/p : port id (PORTA - PORTB - PORTC) / pin number ( PIN0 -> PIN15) / value ( HIGH - LOW)
+  * GPIO_voidsetPinValue - > used to set a specific pin HIGH or LOW 
+							 or enable PULL UP or DOWN 
+  * i/p : port id (PORTA - PORTB - PORTC) / pin number ( PIN0 -> PIN15) / value ( HIGH - LOW) ()
 */
 void GPIO_voidsetPinValue (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumber , u8 copy_u8Value);
 

@@ -59,45 +59,6 @@ void GPIO_voidSetPinMode (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinN
 	}
 }
 
-void GPIO_voidSetPullType (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumber , GPIO_pullType_t copyType){
-	switch (copyPortId) {
-		case PORTA :
-			if      (copyType == GPIO_PULL_UP){
-				GPIOA_BSRR = (1 << copyPinNumber);
-			}
-			else if (copyType == GPIO_PULL_DOWN ){
-				GPIOA_BRR =  (1 << copyPinNumber);
-			}
-			else {
-				/* should not be here */
-			}
-			break ;
-		case PORTB :
-			if      (copyType == GPIO_PULL_UP){
-				GPIOB_BSRR = (1 << copyPinNumber);
-			}
-			else if (copyType == GPIO_PULL_DOWN ){
-				GPIOB_BRR  = (1 << copyPinNumber);
-			}
-			else {
-				/* should not be here */
-			}
-			break ;
-		case PORTC : 
-			if      (copyType == GPIO_PULL_UP){
-				GPIOC_BSRR = (1 << copyPinNumber);
-			}
-			else if (copyType == GPIO_PULL_DOWN ){
-				GPIOC_BRR  = (1 << copyPinNumber);
-			}
-			else {
-				/* should not be here */
-			}
-			break ;
-		default    : /* should not be here */ break ;
-	}
-}
-
 void GPIO_voidsetPinValue (GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumber , u8 copy_u8Value){
 	switch (copyPortId) {
 		case PORTA :
@@ -213,7 +174,7 @@ void GPIO_voidLockPin(GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumbe
 	switch (copyPortId) {
 		case PORTA :
 			tmp |=  (1 << copyPinNumber);
-		/* Set LCKK bit */
+			/* Set LCKK bit */
 			GPIOA_LCKR = tmp;
 			/* Reset LCKK bit */
 			GPIOA_LCKR =  (1 << copyPinNumber);
@@ -226,7 +187,7 @@ void GPIO_voidLockPin(GPIO_portId_t copyPortId , GPIO_pinsNumbers_t copyPinNumbe
 			break ;
 		case PORTB :
 			tmp |=  (1 << copyPinNumber) ;
-		/* Set LCKK bit */
+			/* Set LCKK bit */
 			GPIOB_LCKR = tmp;
 			/* Reset LCKK bit */
 			GPIOB_LCKR =  (1 << copyPinNumber);
