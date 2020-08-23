@@ -50,7 +50,8 @@ void NVIC_voidDisableIRQ(NVIC_IRQn_t copyIRQn){
 }
 
 u8   NVIC_u8GetPendingIRQ (NVIC_IRQn_t copyIRQn){
-	u8 bit = GIT_BIT(NVIC->ISPR[ copyIRQn / 32 ] , (copyIRQn & 31 ) ) ;
+	u8 reg_index = copyIRQn / 32 ;
+	u8 bit = GIT_BIT(NVIC->ISPR[ reg_index ] , (copyIRQn & 31 ) ) ;
 	return bit ;  
 }
 
@@ -65,7 +66,8 @@ void NVIC_voidClearPendingIRQ (NVIC_IRQn_t copyIRQn){
 }
 
 u8  NVIC_u8GetActive (NVIC_IRQn_t copyIRQn){
-	u8 bit = GIT_BIT(NVIC->IABR[ copyIRQn / 32 ] , (copyIRQn & 31 ) ) ;
+	u8 reg_index = copyIRQn / 32 ;
+	u8 bit = GIT_BIT(NVIC->IABR[ reg_index ] , (copyIRQn & 31 ) ) ;
 	return bit ;
 }
 
