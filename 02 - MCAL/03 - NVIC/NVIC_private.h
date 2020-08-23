@@ -8,17 +8,17 @@
 
 /* Struct for the NVIC regsiter mapping */
 typedef struct {
-	u32 ISER[3]           ;   /* Interrupt set enable registers    */
-	u32 RESERVED0[29]     ;   
-	u32 ICER[3]           ;   /* Interrupt clear enable registers  */
-	u32 RESERVED1[29]     ;  
-	u32 ISPR[3]           ;   /* Interrupt set pinding registers   */
-	u32 RESERVED2[29]     ;
-	u32 ICPR[3]           ;   /* Interrupt clear pinding registers */
-	u32 RESERVED3[29]     ;
-	u32 IABR[3]           ;   /* Interrupt active bit registers    */
-	u32 RESERVED4[61]     ;	
-	u32 IPR[20]           ;   /* Interrupt priority registers      */
+	volatile u32 ISER[3]           ;   /* Interrupt set enable registers    */
+	volatile u32 RESERVED0[29]     ;   
+	volatile u32 ICER[3]           ;   /* Interrupt clear enable registers  */
+	volatile u32 RESERVED1[29]     ;  
+	volatile u32 ISPR[3]           ;   /* Interrupt set pinding registers   */
+	volatile u32 RESERVED2[29]     ;
+	volatile u32 ICPR[3]           ;   /* Interrupt clear pinding registers */
+	volatile u32 RESERVED3[29]     ;
+	volatile u32 IABR[3]           ;   /* Interrupt active bit registers    */
+	volatile u32 RESERVED4[61]     ;	
+	volatile u8 IPR[80]            ;   /* Interrupt priority registers      */
 }NVIC_t;
 
 /* Register defintions  */
@@ -28,8 +28,7 @@ typedef struct {
 #define   SCB_AIRCR             *((volatile u32 *) 0xE000ED0C )
 
 /* constants */
-#define   VECTKEY               0x5FA
-#define   VECTKEY_BIT           16
+#define   VECTKEY               0x05FA0000
 #define   GROUPING_BIT          8
 
 /* Group priority options */
