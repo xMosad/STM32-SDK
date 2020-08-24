@@ -53,7 +53,7 @@ void EXTI_voidSoftwareInterrupt(u8 copy_u8Line){
 }
 
 void EXTI_voidClearPendingFlag(u8 copy_u8Line){
-	CLEAR_BIT(EXTI->PR , copy_u8Line ); 
+	SET_BIT(EXTI->PR , copy_u8Line ); 
 }
 
 
