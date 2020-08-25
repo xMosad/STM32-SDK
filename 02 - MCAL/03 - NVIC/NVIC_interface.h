@@ -28,9 +28,7 @@ typedef enum {
 	DMA1_Channel7_IRQ     ,
 	ADC1_2_IRQ            ,
 	USB_HP_CAN_IRQ        ,
-	TX_IRQ                ,
 	USB_LP_CAN_IRQ        ,
-	RX0_IRQ               ,
 	CAN_RX1_IRQ           ,
 	CAN_SCE_IRQ           ,
 	EXTI9_5_IRQ           ,
@@ -71,6 +69,7 @@ typedef enum {
 	DMA2_Channel3_IRQ     ,
 	DMA2_Channel4_5_IRQ               
 }NVIC_IRQn_t;
+
 
 
 /* 
