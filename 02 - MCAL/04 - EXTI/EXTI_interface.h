@@ -14,11 +14,16 @@ typedef enum {
 }EXTI_triggerSelect_t;
 
 /* 
-  * EXTI_voidEnbaleLineInterrupt - > Enable a specific external interrupt line and determine the 
-									 the trigger type
+  * EXTI_voidEnbaleLineInterrupt - > Only set the trigger sensing 
   * i/p : (u8) line number / (EXTI_triggerSelect_t) the trigger mode 
 */
 void EXTI_voidEnbaleLineInterrupt(u8 copy_u8Line , EXTI_triggerSelect_t copy_triggerType);
+
+/* 
+  * EXTI_voidEnableLineInterrupt - > Enable a specific external interrupt line
+  * i/p : (u8) line number
+*/
+void EXTI_voidEnableLineInterrupt(u8 copy_u8Line);
 
 /* 
   * EXTI_voidDisableLineInterrupt - > Disable a specific external interrupt line

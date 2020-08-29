@@ -13,7 +13,7 @@
 #include "EXTI_config.h"
 
 
-void EXTI_voidEnbaleLineInterrupt(u8 copy_u8Line , EXTI_triggerSelect_t copy_triggerType){
+void EXTI_voidInitLineInterrupt(u8 copy_u8Line , EXTI_triggerSelect_t copy_triggerType){
 	/* Disable interrupt on line */
 	CLEAR_BIT(EXTI->IMR , copy_u8Line ); 
 	
@@ -38,7 +38,9 @@ void EXTI_voidEnbaleLineInterrupt(u8 copy_u8Line , EXTI_triggerSelect_t copy_tri
 			/* should not be here */
 			break;
 	}
-	
+}
+
+void EXTI_voidEnableLineInterrupt(u8 copy_u8Line){
 	/* Enable interrupt on line */
 	SET_BIT(EXTI->IMR , copy_u8Line );
 }
@@ -55,6 +57,8 @@ void EXTI_voidSoftwareInterrupt(u8 copy_u8Line){
 void EXTI_voidClearPendingFlag(u8 copy_u8Line){
 	SET_BIT(EXTI->PR , copy_u8Line ); 
 }
+
+
 
 
 
