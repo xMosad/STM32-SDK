@@ -1,6 +1,6 @@
 /*****************************************************/
  /* Author      : mosad                              */
- /* Version     : v01                                */
+ /* Version     : v02                                */
  /* date        : 25/8/2020                          */
 /*****************************************************/
 /* Library includes */
@@ -13,7 +13,8 @@
 #include "STK_config.h"
 
 /*****   Global variable   *****/
-u32 global_u32Clk  = 0 ;
+u32 global_u32Clk       = 0 ;
+u8  Global_u8SingleFlag = 0 ;
 void (* functionCallBack)();  
 
 void STK_voidInit(void)
@@ -88,6 +89,37 @@ void STK_voidSetIntervalPeriodic( u32 Copy_u32Time , STK_time_t copy_unit, void 
 	SET_BIT(STK->CTRL , STK_CTRL_TICKINT);
 }
 
+void STK_voidSetIntervalSingle( u32 Copy_u32Time , STK_time_t copy_unit, void (*Copy_func)(void)){
+	u32 local_u32Load = 0 ;
+	CLEAR_BIT(STK->CTRL , STK_CTRL_ENABLE);
+	STK->VAL = 0 ;
+	/* Calculate and load the load value */
+	switch (copy_unit){
+		case TIME_MS :
+			local_u32Load = Copy_u32Time * (global_u32Clk / 1000) ;
+			STK->LOAD     = local_u32Load ;
+			break;
+
+		case TIME_US :
+			local_u32Load = Copy_u32Time * (global_u32Clk / 1000000) ;
+			STK->LOAD     = local_u32Load ;
+			break ;
+		default :    /* Should not be here */      break;
+	}
+
+	/* To pass the function to ISR */
+	functionCallBack = Copy_func ;
+
+	/* Start timer */
+	SET_BIT(STK->CTRL , STK_CTRL_ENABLE);
+
+	/* Enable interrupt */
+	SET_BIT(STK->CTRL , STK_CTRL_TICKINT);
+
+	/* Set single flag */
+	Global_u8SingleFlag = 1 ;
+}
+
 void STK_voidStop(void)
 {
 	/* Stop timer */
@@ -104,6 +136,18 @@ void STK_voidResume(void)
 	
 	/* Enable interrupt */
 	SET_BIT(STK->CTRL , STK_CTRL_TICKINT);	
+}
+
+void STK_voidStart(void)
+{
+	/* Zero the val rigester */
+	STK->VAL = 0 ;
+	
+	/* Load value with max value */
+	STK->LOAD = 0xFFFFFF;
+	
+	/* Start timer */
+	SET_BIT(STK->CTRL , STK_CTRL_ENABLE);
 }
 
 
@@ -146,5 +190,12 @@ u32 STK_u32GetRemainingTime(STK_time_t copy_unit)
 
 void SysTick_Handler(void)
 {
+	/* In case of using single interval*/
+	if (Global_u8SingleFlag){
+		/* Stop timer */
+		CLEAR_BIT(STK->CTRL , STK_CTRL_ENABLE);
+		/* Disable interrupt */	
+		CLEAR_BIT(STK->CTRL , STK_CTRL_TICKINT);
+	}
 	functionCallBack();
 }

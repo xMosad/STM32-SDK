@@ -1,6 +1,6 @@
 /*****************************************************/
  /* Author      : mosad                              */
- /* Version     : v01                                */
+ /* Version     : v02                                */
  /* date        : 25/8/2020                          */
 /*****************************************************/
 #ifndef STK_INTERFACE_H
@@ -13,7 +13,10 @@
     STK in asynchronous mode and a function will be
     passed to the ISR.
 	you should use the STK in only one of the modes to 
-	guarantee to work correctly */
+	guarantee to work correctly 
+	you can also use it to caclulate some elabsed time from
+	specific point using (STK_voidStart)
+*/
 /*******************************************************/
 
             /****    global types   ****/
@@ -43,6 +46,12 @@ void STK_voidSetBusyWait( u32 Copy_u32Time , STK_time_t copy_unit );
 void STK_voidSetIntervalPeriodic( u32 Copy_u32Time , STK_time_t copy_unit, void (*Copy_func)(void));
 
 /* 
+  * STK_voidSetIntervalSingle - > pass a one shot function to the SysTick ISR
+  * i/p : (u32) Time / (STK_time_t) unit : TIME_MS - TIME_US / void function 
+*/
+void STK_voidSetIntervalSingle( u32 Copy_u32Time , STK_time_t copy_unit, void (*Copy_func)(void));
+
+/* 
   * STK_voidStop - > stop timer and disable interrupt  
 */
 void STK_voidStop(void);
@@ -51,6 +60,12 @@ void STK_voidStop(void);
   * STK_voidResume - > start timer and enable interrupt  
 */
 void STK_voidResume(void);
+
+/* 
+  * STK_voidStart - > start timer to count from max value can be used to culcated time elapsed
+					  from calling this function 
+*/
+void STK_voidStart(void);
 
 /* 
   * STK_u32GetElapsedTime - > return elapsed time in ms or us
