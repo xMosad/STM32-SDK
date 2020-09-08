@@ -144,7 +144,6 @@ static void voidScheduler (void)
 
 }
 
-/* Will be implemented later */
 static void voidGoToSleep(void){
-	__asm ("NOP");
+	__asm ("WFI");
 }
