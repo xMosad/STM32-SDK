@@ -13,7 +13,14 @@
 #define   OS_NUMBER_OF_TASKS   3
 
 /*
-	The tick interval 
+	Options 
+		TIME_MS
+		TIME_US
+*/
+#define   OS_TICK_UNIT         TIME_MS
+   
+/*
+	The tick interval  
 */
 #define   OS_TICK_PERIOD       1 
 

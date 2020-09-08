@@ -17,6 +17,7 @@
 
 /************* Global variables ************/ 
 OS_Task_t globalTasks[OS_NUMBER_OF_TASKS] ;
+
 /************ Public functions **************/
 
 /***********************   Scheduler APIS   *********************/
@@ -25,7 +26,7 @@ void OS_voidStart(void)
 	/* To initialize the STK driver */
 	STK_voidInit();
 	/* To pass the scheduer function to the systick ISR */
-	STK_voidSetIntervalPeriodic(OS_TICK_PERIOD, TIME_MS , voidScheduler );
+	STK_voidSetIntervalPeriodic(OS_TICK_PERIOD, OS_TICK_UNIT , voidScheduler );
 }
 
 void OS_voidStop(void)
@@ -124,12 +125,17 @@ static void voidScheduler (void)
 	{
 		if ( (globalTasks[i].func) && (globalTasks[i].taskState == OS_TASK_READY) )
 		{
+			
 			/* Time of the task has come */
 			if ( globalTasks[i].initialDelay == 0)
 			{
-				globalTasks[i].initialDelay = globalTasks[i].priode - OS_TICK_PERIOD ;
 				/* Dispatcher will check this flag in the while */
 				globalTasks[i].RunMe++;
+				
+				/* Only if the task periodic will updated the initialDelay */
+				if (globalTasks[i].priode){
+					globalTasks[i].initialDelay = globalTasks[i].priode - OS_TICK_PERIOD ;
+				}
 			}
 			else
 			{
