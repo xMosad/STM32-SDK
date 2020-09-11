@@ -16,12 +16,14 @@
 #include "AUDIO_config.h"
 #include "AUDIO_private.h"
 
-/* Data */
-#include "song.h"
+
+
 /****** Global variables  *******/
  u8 global_u8PinsMap[16] = {AUDIO_DAC0 , AUDIO_DAC1 , AUDIO_DAC2 , AUDIO_DAC3 ,                                             
 							AUDIO_DAC4 , AUDIO_DAC5 ,  AUDIO_DAC6 , AUDIO_DAC7 };
-u16 global_u16Index ; 																			
+u16 global_u16Index ;
+u16 global_u16SongLen ;
+u8 global_u8Arr ;
                                        
 /********* Initialization ********/
 void AUDIO_voidInit (void)
@@ -34,10 +36,17 @@ void AUDIO_voidInit (void)
    
 /*********** Tasks ************/ 
 void AUDIO_voidSetDAC (void){
-	GPIO_voidWritePins(AUDIO_DAC0 , PINS_8 , AUDIO_song[global_u16Index]);
+	GPIO_voidWritePins(AUDIO_DAC0 , PINS_8 , global_u8Arr[global_u16Index]);
 	global_u16Index++;
-	if (global_u16Index == AUDIO_SONG_LENGHT){
+	if (global_u16Index == global_u16SongLen){
 		global_u16Index = 0 ;
 	}
+}
+
+
+/*  Setter function  */
+void AUDIO_voidSetSong(u8 *copy_u8Arr , u16 copy_u16SongLen){
+	global_u8Arr = copy_u8Arr ;
+	global_u16SongLen = copy_u16SongLen ;
 }
   

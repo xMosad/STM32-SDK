@@ -23,7 +23,7 @@ void AUDIO_voidInit (void);
   * Function Type  : Periodic Task
   * Parameters     : void 
   * Return         : void
-  * Discription    : Write one byte of the audio to the DAC port
+  * Description    : Write one byte of the audio to the DAC port
   * Pre-conditions : OS must be initialized first 
   * Notes          : Period of the task will determine the audio 
 					 frequency 
@@ -32,6 +32,16 @@ void AUDIO_voidInit (void);
 /************************************************************/
 void AUDIO_voidSetDAC (void);
 
+
+/***********************************************************/
+ /* Function Name  : AUDIO_voidSetSong
+  * Function Type  : Setter
+  * Parameters     : pointer to u8 ,  length of array
+  * Return         : void
+  * Description    : set the array of the audio
+  */
+/************************************************************/
+void AUDIO_voidSetSong(u8 *copy_u8Arr , u16 copy_u16SongLen);
 
 
 #endif

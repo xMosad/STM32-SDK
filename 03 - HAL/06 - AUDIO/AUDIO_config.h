@@ -24,8 +24,7 @@
 */
 #define   AUDIO_DAC_OUTPUT_MODE     GPIO_OUTPUT_10MHZ_PP
 
-/* Configure song lenght */
-#define   AUDIO_SONG_LENGHT          40774
+
 
 
 
