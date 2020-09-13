@@ -41,12 +41,12 @@ void LEDMRX_voidInit(void)
 /********************* Tasks *********************/
 void LEDMRX_voidDisplay (void)
 {
-	/* Activate the current column to write to  a specific row */
-	GPIO_voidsetPinValue(LEDMRX_globalColoumns[global_u8CurrentColoumn] , LEDMRX_globalColoumns[global_u8CurrentColoumn+1], LEDMRX_COLOUMN_VOLTAGE);
 	/* Diactivate a previous column so data will not be written to it */
 	GPIO_voidsetPinValue(LEDMRX_globalColoumns[global_u8PreviosColoumn] , LEDMRX_globalColoumns[global_u8PreviosColoumn+1], !(LEDMRX_COLOUMN_VOLTAGE));
 	/* Write to the rows */
 	SetRowValues(global_u8Data[(global_u8CurrentColoumn/2)]);
+	/* Activate the current column to write to  a specific row */
+	GPIO_voidsetPinValue(LEDMRX_globalColoumns[global_u8CurrentColoumn] , LEDMRX_globalColoumns[global_u8CurrentColoumn+1], LEDMRX_COLOUMN_VOLTAGE);
 	/* Shift to another column */
 	global_u8CurrentColoumn += 2 ;
 	global_u8PreviosColoumn += 2 ;
