@@ -102,10 +102,10 @@ u8 DMA_u8GetStatus(DMA_Channels_t copy_ch)
 	u8 local_u8TC = DMA_TCIF1 + (copy_ch  * 4 );
 	u8 local_u8TE = DMA_TEIF1 + (copy_ch  * 4 );
 	u8 local_u8State  ;
-	if (GIT_BIT (DMA-> IFCR , local_u8TC)){
+	if (GIT_BIT (DMA-> ISR , local_u8TC)){
 		local_u8State = DMA_TC ;
 	}
-	else if (GIT_BIT (DMA-> IFCR , local_u8TE)){
+	else if (GIT_BIT (DMA-> ISR , local_u8TE)){
 		local_u8State = DMA_TE ;
 	}
 	else {
@@ -119,50 +119,50 @@ u8 DMA_u8GetStatus(DMA_Channels_t copy_ch)
 void DMA1_Channel1_IRQHandler (void)
 {
 	callBackFunc[0]();
-	/* Clear flag */
-	DMA -> IFCR = ( 1 << DMA_GIF1);
+	/* Clear flags */
+	DMA -> IFCR = ( 15 << DMA_GIF1);
 }
 
 void DMA1_Channel2_IRQHandler (void)
 {
 	callBackFunc[1]();
-	/* Clear flag */
-	DMA -> IFCR = ( 1 << DMA_GIF2);
+	/* Clear flags */
+	DMA -> IFCR = ( 15 << DMA_GIF2);
 }
 
 void DMA1_Channel3_IRQHandler (void)
 {
 	callBackFunc[2]();
-	/* Clear flag */
-	DMA -> IFCR = ( 1 << DMA_GIF3);
+	/* Clear flags */
+	DMA -> IFCR = ( 15 << DMA_GIF3);
 }
 
 void DMA1_Channel4_IRQHandler (void)
 {
 	callBackFunc[3]();
-	/* Clear flag */
-	DMA -> IFCR = ( 1 << DMA_GIF4);
+	/* Clear flags */
+	DMA -> IFCR = ( 15 << DMA_GIF4);
 }
 
 void DMA1_Channel5_IRQHandler (void)
 {
 	callBackFunc[4]();
-	/* Clear flag */
-	DMA -> IFCR = ( 1 << DMA_GIF5);
+	/* Clear flags */
+	DMA -> IFCR = ( 15 << DMA_GIF5);
 }
 
 void DMA1_Channel6_IRQHandler (void)
 {
 	callBackFunc[5]();
-	/* Clear flag */
-	DMA -> IFCR = ( 1 << DMA_GIF6);
+	/* Clear flags */
+	DMA -> IFCR = ( 15 << DMA_GIF6);
 }
 
 void DMA1_Channel7_IRQHandler (void)
 {
 	callBackFunc[6]();
-	/* Clear flag */
-	DMA -> IFCR = ( 1 << DMA_GIF7);
+	/* Clear flags */
+	DMA -> IFCR = ( 15 << DMA_GIF7);
 }
 
 
