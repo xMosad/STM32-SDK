@@ -3,8 +3,8 @@
  /* Version     : v01                                */
  /* date        : 16/9/2020                          */
 /*****************************************************/
-#ifndef DMA_PRIVATE_H
-#define DMA_PRIVATE_H
+#ifndef SPI_PRIVATE_H
+#define SPI_PRIVATE_H
 
 /*************** Regsiters defintions **************/
 volatile u32 *SPI[SPI_MAX_CH] = {
