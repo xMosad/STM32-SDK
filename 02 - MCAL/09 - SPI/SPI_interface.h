@@ -9,9 +9,6 @@
 		2 - Enable RCC for use SPI
 		3 - Configure pins of SPI as output and input
 		4 - Enable NVIC in case of using interrupts	
-	
-	Limitaions : 
-		1 - Handle one slave 
 */
 
 
@@ -69,11 +66,6 @@ typedef struct {
 /********************* Prototypes **********************/
 
 /* 
-  * SPI_voidInit - > Intialize slave pin only 
-*/
-void SPI_voidInit(void);
-
-/* 
   * SPI_u8ConfigureCh - > Configure specific SPI module refere to SPI_config_t data type
   * I/P : SPI_Ch_t   /   pointer to SPI_config_t 
   * O/P : u8 (Error state)
@@ -83,12 +75,14 @@ u8 SPI_u8ConfigureCh(SPI_Ch_t copy_channel , SPI_config_t *copy_config);
 /* 
   * SPI_voidSendRecSynch - > Send and receive data by specific SPI module (Synchronous function) 
   * I/P : SPI_Ch_t   /   u16   /  pointer to u16 
+  * Pre condition : Activate SS pin of slave
 */
-void SPI_voidSendRecSynch (SPI_Ch_t copy_channel , u16 copy_u16SendData , u16 *copy_u16RecData);
+u16 SPI_voidSendRecSynch (SPI_Ch_t copy_channel , u16 copy_u16SendData);
 
 /* 
   * SPI_voidSendRecAsynch - > Send and receive data by specific SPI module (Asynchronous function)
   * I/P : SPI_Ch_t   /   u16   /  pointer to function (u16)
+  * Pre condition : Activate SS pin of slave
 */
 void SPI_voidSendRecAsynch (SPI_Ch_t copy_channel , u16 copy_u16SendData , void (*func)(u16));
 

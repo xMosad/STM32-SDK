@@ -7,29 +7,15 @@
 #include "BIT_MATH.h"
 #include "STD_TYPES.h"
 
-/* MCAL layer */
-#include "GPIO_interface.h"
-
 /* Module includes */
 #include "SPI_interface.h"
 #include "SPI_config.h"
 #include "SPI_private.h"
 
-
 /* Global variables */
 void (*callBackFunc[SPI_MAX_CH])(u16);
 
 /****** Public fucntions *******/
-
-u8 SPI_u8SlavePort ;
-u8 SPI_u8SlavePin ;
-
-void SPI_voidInit(void)
-{
-	/* Configure the pin as output push pull and set pin as high to make slave inactive*/
-	GPIO_voidSetPinMode(SPI_SS_PIN  , SS_OUTPUT_MODE);
-	GPIO_voidsetPinValue(SPI_SS_PIN , HIGH);
-}
 
 u8 SPI_u8ConfigureCh(SPI_Ch_t copy_channel , SPI_config_t *copy_config)
 {
@@ -95,7 +81,7 @@ u8 SPI_u8ConfigureCh(SPI_Ch_t copy_channel , SPI_config_t *copy_config)
 	switch (copy_config -> u8SSM){
 		case 1  :
 			SET_BIT  ((*(SPI[copy_channel] + CR1 )) , SSM);
-			SET_BIT  ((*(SPI[copy_channel] + CR2 ))  , SSOE);
+			SET_BIT  ((*(SPI[copy_channel] + CR1 ))  , SS1);
 			break ;
 		case 0  :
 			CLEAR_BIT((*(SPI[copy_channel] + CR1 )) , SSM);
@@ -162,35 +148,25 @@ u8 SPI_u8ConfigureCh(SPI_Ch_t copy_channel , SPI_config_t *copy_config)
 }
 
 
-void SPI_voidSendRecSynch (SPI_Ch_t copy_channel , u16 copy_u16SendData , u16 *copy_u16RecData)
+u16 SPI_voidSendRecSynch (SPI_Ch_t copy_channel , u16 copy_u16SendData)
 {
-	/* Activate slave */
-	GPIO_voidsetPinValue(SPI_SS_PIN , LOW);
-	
 	/* Send data */
 	(*(SPI[copy_channel] + DR )) = copy_u16SendData ;
 	
 	/* Wait till finish transmision */
 	while (GIT_BIT ( (*(SPI[copy_channel] + SR )) , BSY) == 1) ;
 	
-	/* Receive data */
-	*copy_u16RecData = (*(SPI[copy_channel] + DR )) ;
-	
-	/* Deactivate slave */
-	GPIO_voidsetPinValue(SPI_SS_PIN , HIGH);
+	/* Return data data */
+	return ( (*(SPI[copy_channel] + DR )) ) ;
 }
 
 void SPI_voidSendRecAsynch (SPI_Ch_t copy_channel , u16 copy_u16SendData , void (*func)(u16))
 {
-	/* Activate slave */
-	GPIO_voidsetPinValue(SPI_SS_PIN , LOW);
-	
 	/* Assign call back function */
 	callBackFunc[copy_channel] = func ;
 	
 	/* Send data */
 	(*(SPI[copy_channel] + DR )) = copy_u16SendData ;
-	
 }
 
 /***************** ISR handlers ******************/

@@ -10,21 +10,5 @@
 /* Max number of SPI channels */
 #define      SPI_MAX_CH          2 
 
-/*
-	Options : 
-		GPIO_OUTPUT_2MHZ_PP
-		GPIO_OUTPUT_10MHZ_PP
-		GPIO_OUTPUT_50MHZ_PP
-*/
-#define      SS_OUTPUT_MODE      GPIO_OUTPUT_10MHZ_PP
-
-/* Slave pin */
-#define      SPI_SS_PIN          PORTA,PIN2
-
-
-
-
-
-
 
 #endif
