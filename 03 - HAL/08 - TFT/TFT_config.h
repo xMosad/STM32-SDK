@@ -8,8 +8,11 @@
 
 
 /* Write pin in pair port,pin */
-#define    TFT_A0_PIN      PORTA,1
-#define    TFT_RST_PIN     PORTA,2
+#define    TFT_A0_PIN      PORTA,1   // output pin
+#define    TFT_RST_PIN     PORTA,2   // reset pin
+
+/* Write pin in pair port,pin */
+#define    TFT_SLAVE_PIN   PORTA,3   // slave select pin
 
 /* Configure TFT size */
 #define    TFT_MAX_X       127

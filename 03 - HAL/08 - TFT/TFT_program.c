@@ -19,7 +19,8 @@
 #include "TFT_private.h"
 
 void TFT_voidInit (void){
-	
+	/* GPIO slave pin init */
+	GPIO_voidSetPinMode(TFT_SLAVE_PIN , GPIO_OUTPUT_10MHZ_PP);
 	/* Reset pulse */
 	GPIO_voidsetPinValue (TFT_RST_PIN , HIGH);
 	STK_voidSetBusyWait(100 , TIME_US);
@@ -59,8 +60,8 @@ void TFT_voidDisplayImage(const u16* copy_u16Image){
 }
 
 void TFT_voidDrawRectangle (u16 copy_u16X ,u16 copy_u16Y , u16 copy_u16Width , u16 copy_u16Hight , u16 copy_u16Color ){
-	u16 loacal_u16EndX = copy_u16X + copy_u16Width;
-	u16 loacal_u16EndY = copy_u16Y + copy_u16Hight;
+	u16 loacal_u16EndX = copy_u16X + copy_u16Width - 1;
+	u16 loacal_u16EndY = copy_u16Y + copy_u16Hight - 1;
 
 	/* Set area of addresses */
 	voidSetAddress(copy_u16X ,loacal_u16EndX,copy_u16Y ,loacal_u16EndY );
@@ -72,27 +73,66 @@ void TFT_voidDrawRectangle (u16 copy_u16X ,u16 copy_u16Y , u16 copy_u16Width , u
 }
 
 
-
 void TFT_voidFillDisplay (u16 copy_u16Colour){
 	TFT_voidDrawRectangle(0 , 0 ,TFT_MAX_X , TFT_MAX_Y , copy_u16Colour);
+}
+
+void TFT_voidPrintChar(s8 copy_s8Char , u16 copy_u16X , u16 copy_u16Y, u8 copy_u8Size , u16 copy_u16Color , u16 copy_u16BackColor)
+{
+	/* Get array index */
+	u8 local_u8CharIndex = 0 ;
+	if (( copy_s8Char >= ' ' )){
+		local_u8CharIndex = copy_s8Char - 32 ;
+	}
+
+	/* Background */
+	TFT_voidDrawRectangle( copy_u16X, copy_u16Y ,copy_u8Size*TFT_CHARACTER_WIDTH ,copy_u8Size*TFT_CHARACTER_HIGHT ,copy_u16BackColor);
+
+	for (u8 i = 0; i <TFT_CHARACTER_WIDTH ; i++ ){
+		for (u8 j = 0 ; j <TFT_CHARACTER_HIGHT ; j++){
+			if (TFT_font[local_u8CharIndex][i] & (1 << j)){
+				if (copy_u8Size == 1){
+					voidDrawPixel(copy_u16X+i , copy_u16Y+j , copy_u16Color);
+				}
+				else {
+					u16 local_x = copy_u16X+(i*copy_u8Size) ;
+					u16 local_y = copy_u16Y+(j*copy_u8Size) ;
+					TFT_voidDrawRectangle( local_x, local_y ,copy_u8Size ,copy_u8Size ,copy_u16Color);
+				}
+			}
+		}
+	}
+}
+
+void TFT_voidPrintText(s8 *copy_s8Text , u16 copy_u16X , u16 copy_u16Y, u8 copy_u8Size , u16 copy_u16Color, u16 copy_u16BackColor)
+{
+	while (*copy_s8Text){
+		TFT_voidPrintChar(*copy_s8Text , copy_u16X ,copy_u16Y ,copy_u8Size ,copy_u16Color,copy_u16BackColor );
+		copy_u16X += (copy_u8Size *TFT_CHARACTER_WIDTH)  ;
+		copy_s8Text++;
+	}
 }
 
 static void voidWriteCommand (u8 copy_u8Command){
 	/* Set A0 LOW */
 	GPIO_voidsetPinValue (TFT_A0_PIN , LOW);
-	
-	/**/
-	u8 rec ;
-	SPI_voidSendRecSynch(SPI1 ,copy_u8Command , &rec );
+	/* Activate TFT slave */
+	GPIO_voidsetPinValue (TFT_SLAVE_PIN , LOW);
+	/* Send command */
+	SPI_voidSendRecSynch(SPI1 , copy_u8Command );
+	/* Deactivate TFT slave */
+	GPIO_voidsetPinValue (TFT_SLAVE_PIN , HIGH);
 }
 
 static void voidWriteData (u8 copy_u8Data){
 	/* Set A0 HIGH */
 	GPIO_voidsetPinValue (TFT_A0_PIN , HIGH);
-	
-	/**/
-	u8 rec ;
-	SPI_voidSendRecSynch(SPI1 ,copy_u8Data , &rec );
+	/* Activate TFT slave */
+	GPIO_voidsetPinValue (TFT_SLAVE_PIN , LOW);
+	/* Send Data */
+	SPI_voidSendRecSynch(SPI1 ,copy_u8Data );
+	/* Deactivate TFT slave */
+	GPIO_voidsetPinValue (TFT_SLAVE_PIN , HIGH);
 }
 
 static void voidDrawPixel (u16 copy_u16X , u16 copy_u16Y , u16 copy_u16Colour)
