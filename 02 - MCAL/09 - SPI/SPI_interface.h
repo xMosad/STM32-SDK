@@ -21,7 +21,7 @@
 typedef enum {
 	SPI1,
 	SPI2,
-	MAX_TIMERS
+	MAX_SPIS
 }SPI_Ch_t;
 
 
